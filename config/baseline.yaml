@@ -1,0 +1,63 @@
+metadata:
+  profile_name: "Enterprise Linux Security Hardening Baseline (CIS L1 Aligned)"
+  profile_version: "1.0.0"
+  target_os: "Ubuntu 22.04 / 24.04 LTS & Debian 12"
+  maintainer: "Ferdian Hanif, S.T."
+
+# -------------------------------------------------------------
+# Module 1: SSH Server Configuration (/etc/ssh/sshd_config)
+# -------------------------------------------------------------
+ssh:
+  permit_root_login: "no"           # Severity: CRITICAL
+  password_authentication: "no"     # Severity: HIGH (Key-based only)
+  max_auth_tries: 4                 # Severity: MEDIUM
+  x11_forwarding: "no"              # Severity: LOW
+  port: 22                          # Default SSH port (or custom)
+  client_alive_interval: 300        # Severity: MEDIUM (5 min idle timeout)
+  client_alive_count_max: 2         # Severity: LOW
+
+# -------------------------------------------------------------
+# Module 2: Network & Firewall Surface
+# -------------------------------------------------------------
+firewall:
+  enabled: true                     # Severity: CRITICAL (UFW or iptables active)
+  default_incoming_policy: "deny"   # Severity: HIGH
+  allowed_inbound_ports: [22, 80, 443] # Severity: HIGH for unlisted open ports
+
+# -------------------------------------------------------------
+# Module 3: Authentication & Password Policy (/etc/login.defs)
+# -------------------------------------------------------------
+auth:
+  pass_max_days: 90                 # Severity: MEDIUM
+  pass_min_days: 7                  # Severity: MEDIUM
+  pass_warn_age: 14                 # Severity: LOW
+  disallow_empty_passwords: true    # Severity: CRITICAL (/etc/shadow check)
+  root_uid_only_zero: true          # Severity: CRITICAL (No rogue UID 0 users)
+
+# -------------------------------------------------------------
+# Module 4: Filesystem & Permissions
+# -------------------------------------------------------------
+filesystem:
+  check_world_writable_dirs: ["/etc"] # Severity: HIGH
+  check_unauthorized_suid: true       # Severity: HIGH (find / -perm -4000)
+  default_umask: "027"                # Severity: MEDIUM (/etc/profile or login.defs)
+
+# -------------------------------------------------------------
+# Module 5: Automated Maintenance & Services
+# -------------------------------------------------------------
+services:
+  unattended_upgrades: true           # Severity: MEDIUM
+  disallowed_services:                # Severity: HIGH (Insecure legacy daemons)
+    - "telnet"
+    - "rsh"
+    - "rlogin"
+    - "nis"
+    - "tftp"
+
+# -------------------------------------------------------------
+# Notification & Alerting Thresholds
+# -------------------------------------------------------------
+notifications:
+  telegram_enabled: false             # Set true or pass via CLI flag --telegram
+  alert_severities: ["CRITICAL", "HIGH"]
+  html_report_path: "reports/security_audit_latest.html"

@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Drift Audit Report - LAPTOP-HMFKU4N5</title>
+    <style>
+        :root {
+            --primary: #2563EB;
+            --slate-900: #0F172A;
+            --slate-800: #1E293B;
+            --slate-700: #334155;
+            --slate-100: #F1F5F9;
+            --slate-50: #F8FAFC;
+            --border: #E2E8F0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--slate-50);
+            color: var(--slate-800);
+            line-height: 1.5;
+            padding: 30px 20px;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        /* Header */
+        .header {
+            background: #FFFFFF;
+            border-radius: 12px;
+            padding: 24px 30px;
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .header-title h1 { font-size: 20px; color: var(--slate-900); font-weight: 700; margin-bottom: 4px; }
+        .header-meta { font-size: 13px; color: var(--slate-700); }
+        
+        /* Score Card */
+        .score-pill {
+            text-align: right;
+            padding: 12px 20px;
+            border-radius: 10px;
+            background: #FEF2F2;
+            border: 1px solid #EF4444;
+        }
+        .score-val { font-size: 28px; font-weight: 800; color: #EF4444; line-height: 1; }
+        .score-label { font-size: 12px; font-weight: 700; text-transform: uppercase; color: #EF4444; margin-top: 4px; }
+
+        /* Stat Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+        }
+        .stat-num { font-size: 24px; font-weight: 700; color: var(--slate-900); }
+        .stat-name { font-size: 12px; color: var(--slate-700); text-transform: uppercase; font-weight: 600; }
+        .stat-crit { color: #EF4444; }
+        .stat-high { color: #F97316; }
+        .stat-med { color: #EAB308; }
+        .stat-pass { color: #10B981; }
+
+        /* Table Card */
+        .table-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .table-header {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .table-title { font-size: 16px; font-weight: 700; color: var(--slate-900); }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+        th {
+            background: var(--slate-100);
+            padding: 12px 16px;
+            font-weight: 600;
+            color: var(--slate-700);
+            border-bottom: 1px solid var(--border);
+        }
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
+            vertical-align: top;
+        }
+        tr:hover td { background: #FAFAFA; }
+        
+        /* Badges & Elements */
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+        .rule-title { font-weight: 600; color: var(--slate-900); }
+        .rule-desc { font-size: 11.5px; color: var(--slate-700); margin-top: 3px; }
+        .actual-val { font-family: monospace; font-size: 12px; font-weight: 600; }
+        .expected-val { font-family: monospace; font-size: 12px; color: #059669; }
+        .val-fail { color: #DC2626; }
+        .val-pass { color: #059669; }
+        code {
+            background: var(--slate-100);
+            padding: 4px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #C026D3;
+            display: block;
+            max-width: 280px;
+            word-break: break-all;
+        }
+        .text-muted { color: #94A3B8; font-size: 11px; }
+
+        /* Footer */
+        .footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 12px;
+            color: #64748B;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-title">
+                <h1>Linux Configuration Drift and Compliance Report</h1>
+                <div class="header-meta">
+                    <strong>Host:</strong> LAPTOP-HMFKU4N5 &nbsp;|&nbsp;
+                    <strong>OS:</strong> Windows 11 (AMD64) &nbsp;|&nbsp;
+                    <strong>Scan Time:</strong> 2026-10-11 14:57:29
+                </div>
+            </div>
+            <div class="score-pill">
+                <div class="score-val">0.0%</div>
+                <div class="score-label">CRITICAL RISK</div>
+            </div>
+        </div>
+
+        <!-- Quick Stats -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-num">13</div>
+                <div class="stat-name">Total Rules</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num stat-pass">1</div>
+                <div class="stat-name">Rules Passed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num stat-crit">3</div>
+                <div class="stat-name">Critical Breaches</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num stat-high">2</div>
+                <div class="stat-name">High Risk</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-num stat-med">4</div>
+                <div class="stat-name">Medium Risk</div>
+            </div>
+        </div>
+
+        <!-- Detailed Audit Table -->
+        <div class="table-card">
+            <div class="table-header">
+                <div class="table-title">Audit Findings & Configuration Drift Matrix</div>
+                <div style="font-size: 12px; color: #64748B;">Execution: 0.179s &nbsp;|&nbsp; Exit Code: 2</div>
+            </div>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 80px;">Status</th>
+                        <th style="width: 90px;">Rule ID</th>
+                        <th style="width: 140px;">Category</th>
+                        <th>Rule Description</th>
+                        <th>Observed State</th>
+                        <th>Expected Baseline</th>
+                        <th>Remediation Command</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+            <tr class="status-fail sev-critical">
+                <td><span class="badge" style="background:#FDE8E8; color:#9B1C1C;">CRITICAL</span></td>
+                <td><strong>SSH-01</strong></td>
+                <td>SSH Hardening</td>
+                <td>
+                    <div class="rule-title">PermitRootLogin Policy</div>
+                    <div class='rule-desc'>Root login directly via SSH exposes the system to elevated brute-force compromise.</div>
+                </td>
+                <td><span class="actual-val val-fail">PermitRootLogin yes</span></td>
+                <td><span class="expected-val">PermitRootLogin no</span></td>
+                <td><code>sudo sed -i 's/^#*PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config && sudo systemctl reload sshd</code></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-high">
+                <td><span class="badge" style="background:#FEECDC; color:#9A3412;">HIGH</span></td>
+                <td><strong>SSH-02</strong></td>
+                <td>SSH Hardening</td>
+                <td>
+                    <div class="rule-title">PasswordAuthentication Policy</div>
+                    <div class='rule-desc'>Password-based authentication permits credential guessing. Key-based authentication is mandatory.</div>
+                </td>
+                <td><span class="actual-val val-fail">PasswordAuthentication yes</span></td>
+                <td><span class="expected-val">PasswordAuthentication no</span></td>
+                <td><code>sudo sed -i 's/^#*PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config && sudo systemctl reload sshd</code></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-medium">
+                <td><span class="badge" style="background:#FEF08A; color:#854D0E;">MEDIUM</span></td>
+                <td><strong>SSH-03</strong></td>
+                <td>SSH Hardening</td>
+                <td>
+                    <div class="rule-title">MaxAuthTries Threshold</div>
+                    <div class='rule-desc'>Limits number of failed authentication attempts per connection to mitigate rapid brute-forcing.</div>
+                </td>
+                <td><span class="actual-val val-fail">MaxAuthTries 8</span></td>
+                <td><span class="expected-val">MaxAuthTries <= 4</span></td>
+                <td><code>echo 'MaxAuthTries 4' | sudo tee -a /etc/ssh/sshd_config.d/hardening.conf && sudo systemctl reload sshd</code></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-low">
+                <td><span class="badge" style="background:#E1EFFE; color:#1E429F;">LOW</span></td>
+                <td><strong>SSH-04</strong></td>
+                <td>SSH Hardening</td>
+                <td>
+                    <div class="rule-title">X11Forwarding Disabled</div>
+                    <div class='rule-desc'>Disabling X11 forwarding reduces server attack surface on headless production systems.</div>
+                </td>
+                <td><span class="actual-val val-fail">X11Forwarding yes</span></td>
+                <td><span class="expected-val">X11Forwarding no</span></td>
+                <td><code>sudo sed -i 's/^#*X11Forwarding.*/X11Forwarding no/' /etc/ssh/sshd_config && sudo systemctl reload sshd</code></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-medium">
+                <td><span class="badge" style="background:#FEF08A; color:#854D0E;">MEDIUM</span></td>
+                <td><strong>SSH-05</strong></td>
+                <td>SSH Hardening</td>
+                <td>
+                    <div class="rule-title">ClientAliveInterval (Idle Session Timeout)</div>
+                    <div class='rule-desc'>Terminates abandoned or stale SSH sessions automatically after inactive periods.</div>
+                </td>
+                <td><span class="actual-val val-fail">ClientAliveInterval 0</span></td>
+                <td><span class="expected-val">ClientAliveInterval 1-300</span></td>
+                <td><code>echo 'ClientAliveInterval 300' | sudo tee -a /etc/ssh/sshd_config.d/hardening.conf && sudo systemctl reload sshd</code></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-medium">
+                <td><span class="badge" style="background:#FEF08A; color:#854D0E;">MEDIUM</span></td>
+                <td><strong>AUTH-01</strong></td>
+                <td>Password Policy</td>
+                <td>
+                    <div class="rule-title">Maximum Password Age (PASS_MAX_DAYS)</div>
+                    <div class='rule-desc'>Enforces regular password rotation to limit exposure window of compromised credentials.</div>
+                </td>
+                <td><span class="actual-val val-fail">PASS_MAX_DAYS 99999</span></td>
+                <td><span class="expected-val">PASS_MAX_DAYS <= 90</span></td>
+                <td><code>sudo sed -i 's/^PASS_MAX_DAYS.*/PASS_MAX_DAYS   90/' /etc/login.defs</code></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-medium">
+                <td><span class="badge" style="background:#FEF08A; color:#854D0E;">MEDIUM</span></td>
+                <td><strong>AUTH-02</strong></td>
+                <td>Password Policy</td>
+                <td>
+                    <div class="rule-title">Minimum Password Age (PASS_MIN_DAYS)</div>
+                    <div class='rule-desc'>Prevents users from immediately cycling through password history to reuse old passwords.</div>
+                </td>
+                <td><span class="actual-val val-fail">PASS_MIN_DAYS 0</span></td>
+                <td><span class="expected-val">PASS_MIN_DAYS >= 7</span></td>
+                <td><code>sudo sed -i 's/^PASS_MIN_DAYS.*/PASS_MIN_DAYS   7/' /etc/login.defs</code></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-critical">
+                <td><span class="badge" style="background:#FDE8E8; color:#9B1C1C;">CRITICAL</span></td>
+                <td><strong>AUTH-03</strong></td>
+                <td>User Accounts</td>
+                <td>
+                    <div class="rule-title">Unique Superuser UID 0 Verification</div>
+                    <div class='rule-desc'>Any non-root user with UID 0 possesses full unconstrained kernel privileges (backdoor pattern).</div>
+                </td>
+                <td><span class="actual-val val-fail">Rogue UID 0 accounts: hacker_backdoor</span></td>
+                <td><span class="expected-val">UID 0 uniquely assigned to 'root'</span></td>
+                <td><code>sudo userdel -f <username></code></td>
+            </tr>
+            
+
+            <tr class="status-skipped sev-info">
+                <td><span class="badge" style="background:#F3F4F6; color:#4B5563;">SKIPPED</span></td>
+                <td><strong>AUTH-04</strong></td>
+                <td>User Accounts</td>
+                <td>
+                    <div class="rule-title">Null/Empty Password Verification</div>
+                    <div class='rule-desc'>Audit skipped due to unprivileged process context.</div>
+                </td>
+                <td><span class="actual-val val-pass">/etc/shadow unreadable (Run auditor with sudo for root check)</span></td>
+                <td><span class="expected-val">Access to /etc/shadow requires elevated privileges</span></td>
+                <td><span class='text-muted'>N/A</span></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-critical">
+                <td><span class="badge" style="background:#FDE8E8; color:#9B1C1C;">CRITICAL</span></td>
+                <td><strong>FW-01</strong></td>
+                <td>Firewall & Perimeter</td>
+                <td>
+                    <div class="rule-title">Host Firewall Operational Status</div>
+                    <div class='rule-desc'>An inactive host firewall exposes all listening daemon ports directly to the local or public network.</div>
+                </td>
+                <td><span class="actual-val val-fail">Firewall is inactive</span></td>
+                <td><span class="expected-val">Firewall active (UFW / iptables)</span></td>
+                <td><code>sudo ufw default deny incoming && sudo ufw default allow outgoing && sudo ufw allow 22/tcp && sudo ufw --force enable</code></td>
+            </tr>
+            
+
+            <tr class="status-skipped sev-info">
+                <td><span class="badge" style="background:#F3F4F6; color:#4B5563;">SKIPPED</span></td>
+                <td><strong>FW-02</strong></td>
+                <td>Firewall & Perimeter</td>
+                <td>
+                    <div class="rule-title">Authorized Listening Port Governance</div>
+                    <div class='rule-desc'>Port governance check skipped.</div>
+                </td>
+                <td><span class="actual-val val-pass">Socket telemetry unavailable (non-Linux or unmounted /proc)</span></td>
+                <td><span class="expected-val">Only baseline ports listening: [22, 80, 443]</span></td>
+                <td><span class='text-muted'>N/A</span></td>
+            </tr>
+            
+
+            <tr class="status-fail sev-high">
+                <td><span class="badge" style="background:#FEECDC; color:#9A3412;">HIGH</span></td>
+                <td><strong>FS-01</strong></td>
+                <td>Filesystem Integrity</td>
+                <td>
+                    <div class="rule-title">World-Writable System Configuration Files</div>
+                    <div class='rule-desc'>World-writable files in /etc allow unprivileged local users or compromised processes to modify system configuration.</div>
+                </td>
+                <td><span class="actual-val val-fail">5 world-writable files found (e.g. C:\Users\Lenovo\AppData\Local\Temp\tmpe1tgcu5t\etc\insecure_app.conf)</span></td>
+                <td><span class="expected-val">0 world-writable files in critical system configuration paths</span></td>
+                <td><code>sudo chmod o-w <file></code></td>
+            </tr>
+            
+
+            <tr class="status-pass sev-critical">
+                <td><span class="badge" style="background:#DEF7EC; color:#03543F;">PASS</span></td>
+                <td><strong>FS-02</strong></td>
+                <td>Filesystem Integrity</td>
+                <td>
+                    <div class="rule-title">Temporary Directory SUID Execution Anomaly</div>
+                    <div class='rule-desc'>SUID binaries in temporary directories indicate local privilege escalation exploitation attempts.</div>
+                </td>
+                <td><span class="actual-val val-pass">No SUID binaries detected in /tmp or /dev/shm</span></td>
+                <td><span class="expected-val">Zero SUID binaries located in /tmp, /var/tmp, or /dev/shm</span></td>
+                <td><span class='text-muted'>N/A</span></td>
+            </tr>
+            
+                </tbody>
+            </table>
+        </div>
+
+        <div class="footer">
+            Generated by <strong>Linux Configuration Drift & Security Baseline Gatekeeper</strong> &nbsp;|&nbsp; CIS Benchmark Level 1 Aligned
+        </div>
+    </div>
+</body>
+</html>
