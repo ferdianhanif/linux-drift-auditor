@@ -34,6 +34,14 @@ Tools like OpenSCAP and Lynis provide thorough system audits, but their output i
 (0 Clean / 1 Warn / 2 Fail)
 ```
 
+## Previews
+
+### Terminal Output
+![Terminal CLI Preview](assets/terminal_cli_preview.png)
+
+### Standalone HTML Report
+![HTML Report Preview](assets/html_report_preview.png)
+
 ## Checks Performed
 
 ### SSH Configuration (`/etc/ssh/sshd_config` and drop-ins)
