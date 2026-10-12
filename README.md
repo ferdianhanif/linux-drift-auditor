@@ -1,5 +1,9 @@
 # linux-drift-auditor
 
+[![CI](https://github.com/ferdianhanif/linux-drift-auditor/actions/workflows/ci.yml/badge.svg)](https://github.com/ferdianhanif/linux-drift-auditor/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+
 A lightweight configuration compliance and security drift auditor for Linux systems.
 
 ## Overview
